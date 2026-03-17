@@ -1,0 +1,13 @@
+from datetime import time as dt_time
+
+START_TIME = dt_time(7, 0)
+END_TIME = dt_time(10, 0)
+
+LOW_FREQUENCY = 30 * 60
+MID_FREQUENCY = 5 * 60
+HIGH_FREQUENCY = 60
+
+MEDIAN_TEMPERATURE = 20
+MEDIAN_HUMIDITY = 30
+STD_TEMPERATURE = 2
+STD_HUMIDITY = 2
