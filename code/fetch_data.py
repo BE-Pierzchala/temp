@@ -1,5 +1,7 @@
+import requests
+from typing import Tuple
 
-
-def get_data():
-    return 20.0, 69.5
+def get_data() -> Tuple[float, int, float]:
+    response = requests.get("http://192.168.0.171/data").json()
+    return response['temperature'], response['humidity'], response['heat_index']
 

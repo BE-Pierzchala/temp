@@ -8,6 +8,8 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 COPY code/ ./code/
 
+COPY main.py ./
+
 ENV PYTHONPATH=/app
 
-CMD ["streamlit", "run", "code/main.py", "--server.port=8501"]
+CMD ["python", "main.py"]

@@ -23,10 +23,10 @@ def get_interval(temperature: float, humidity: float) -> int:
 
 def run_measurement() -> int:
 
-    temperature, humidity = fetch_data.get_data()
+    temperature, humidity, heat_index = fetch_data.get_data()
 
     with SqlWorker() as sql:
-        sql.insert_data(temperature, humidity)
+        sql.insert_data(temperature, humidity, heat_index)
 
     return get_interval(temperature, humidity)
 
