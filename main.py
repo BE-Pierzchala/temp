@@ -28,6 +28,9 @@ def run_measurement() -> int:
     with SqlWorker() as sql:
         sql.insert_data(temperature, humidity, heat_index)
 
+    if temperature is None or humidity is None or heat_index is None:
+        return config.LOW_FREQUENCY
+
     return get_interval(temperature, humidity)
 
 
