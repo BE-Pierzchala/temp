@@ -3,17 +3,21 @@ import code.fetch_data as fetch_data
 import code.CONFIG as config
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def within_time_range():
-    now = datetime.now().time()
-    return config.START_TIME <= now <= config.END_TIME
+    return config.START_TIME <= (datetime.now() + timedelta(hours=1)).time() <= config.END_TIME
+
+def is_night():
+    return  (datetime.now() + timedelta(hours=1)).time() <= config.START_TIME
 
 def get_interval(temperature: float, humidity: float) -> int:
     high_temp = abs(temperature - config.MEDIAN_TEMPERATURE) > config.STD_TEMPERATURE
     high_hum = abs(humidity - config.MEDIAN_HUMIDITY) > config.STD_HUMIDITY
 
+    if is_night():
+        return config.LOW_FREQUENCY
     if high_temp or high_hum:
         return config.HIGH_FREQUENCY
     elif within_time_range():
