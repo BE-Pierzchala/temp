@@ -1,5 +1,9 @@
 # Byte-compiled / optimized / DLL files
 .idea
+lazienka.ipynb
+data.xlsx
+docker-compose.yml
+nohup.out
 
 __pycache__/
 *.py[codz]

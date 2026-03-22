@@ -27,13 +27,13 @@ def get_interval(temperature: float, humidity: float) -> int:
 
 def run_measurement() -> int:
 
-    temperature, humidity, heat_index = fetch_data.get_data()
+    temperature, humidity = fetch_data.get_data()
 
-    if temperature is None or humidity is None or heat_index is None:
+    if temperature is None or humidity is None:
         return config.LOW_FREQUENCY
 
     with SqlWorker() as sql:
-        sql.insert_data(temperature, humidity, heat_index)
+        sql.insert_data(temperature, humidity)
 
     return get_interval(temperature, humidity)
 
