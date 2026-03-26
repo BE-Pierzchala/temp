@@ -52,5 +52,4 @@ def main_loop():
 
 
 if __name__ == "__main__":
-    #main_loop()
-    worker(IP_LIST[0])
+    main_loop()
