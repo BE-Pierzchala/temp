@@ -1,10 +1,12 @@
 from code.sql_worker import SqlWorker
 import code.fetch_data as fetch_data
 import code.CONFIG as config
+from concurrent.futures import ThreadPoolExecutor
 
 import time
 from datetime import datetime, timedelta
 
+IP_LIST = ['192.168.0.151', '192.168.0.38']
 
 def within_time_range():
     return config.START_TIME <= (datetime.now() + timedelta(hours=1)).time() <= config.END_TIME
@@ -25,24 +27,30 @@ def get_interval(temperature: float, humidity: float) -> int:
     return config.LOW_FREQUENCY
 
 
-def run_measurement() -> int:
+def run_measurement(ip: str) -> int:
 
-    temperature, humidity = fetch_data.get_data()
+    temperature, humidity = fetch_data.get_data(ip)
 
     if temperature is None or humidity is None:
         return config.LOW_FREQUENCY
 
     with SqlWorker() as sql:
-        sql.insert_data(temperature, humidity)
+        sql.insert_data(temperature, humidity, ip)
 
     return get_interval(temperature, humidity)
 
 
-def main_loop():
+def worker(ip):
     while True:
-        next_interval = run_measurement()
+        next_interval = run_measurement(ip)
         time.sleep(next_interval)
+
+def main_loop():
+    with ThreadPoolExecutor(max_workers=len(IP_LIST)) as executor:
+        for ip in IP_LIST:
+            executor.submit(worker, ip)
 
 
 if __name__ == "__main__":
-    main_loop()
+    #main_loop()
+    worker(IP_LIST[0])

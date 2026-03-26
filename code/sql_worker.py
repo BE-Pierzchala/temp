@@ -37,6 +37,6 @@ class SqlWorker:
         self.connection.commit()
         return response
 
-    def insert_data(self, temperature: float, humidity:int) -> None:
-        self.execute_query(f"INSERT INTO {self.schema}.data(temperature, humidity) "
-                           f"VALUES({temperature}, {humidity});")
+    def insert_data(self, temperature: float, humidity:float, ip: str) -> None:
+        self.execute_query(f"INSERT INTO {self.schema}.data(temperature, humidity, ip) "
+                           f"VALUES({temperature}, {humidity}, '{ip}');")
